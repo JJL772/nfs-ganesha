@@ -1,0 +1,21 @@
+# Instructions on how to build
+
+# Configure gssglue
+git clone https://gitlab.com/gsasl/libgssglue.git
+cd libgssglue
+git checkout libgssglue-0.4
+
+# Build tirpc
+cd src
+./tirpc.sh
+cd libtirpc
+
+bash autogen.sh
+export PKG_CONFIG_PATH="$PWD/../../rhel9-x86_64/lib/pkgconfig/"
+./configure --prefix="$PWD/../../rhel9-x86_64"
+
+# build ganesha
+cd ..
+./configure --prefix="$PWD/../rhel9-x86_64" LDFLAGS=-L"$PWD/../rhel9-x86_64/lib"
+make
+
